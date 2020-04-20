@@ -42,7 +42,7 @@ public class FetchJoinDemo {
 		//close the session
 		session.close();
 		
-		System.out.println("bcz gls  like you  the way ");
+		System.out.println("session has been  closed ");
 		
 		//get the courses for the instructor
 		System.out.println("courses"+ tempInstructor.getCourses());
