@@ -9,7 +9,7 @@ import com.sbits.demo.entity.Instructor;
 import com.sbits.demo.entity.InstructorDetail;
 
 
-public class DeleteCourseDemo {
+public class FetchJoinDemo {
 
 	public static void main(String[] args) {
 		
@@ -27,18 +27,27 @@ public class DeleteCourseDemo {
 			//start a transaction
 			session.beginTransaction();
 			
-		// get a course 
-			int theId=13;
-			Course tempCourse=session.get(Course.class,theId);
-			
-			//delete  the course
-			System.out.println("deleting course"+tempCourse);
-			
-			session.delete(tempCourse);
+		int theId=1;
+		Instructor tempInstructor=session.get(Instructor.class,theId);// here all the data of instructor instructor details loaded no need to again hit the db 
 		
 		
-			//commit the transaction
-			session.getTransaction().commit();
+		System.out.println("instructor:" +tempInstructor);
+		
+		System.out.println("courses"+ tempInstructor.getCourses());// loading getter before session close
+		
+		
+		//commit the  transaction
+		session.getTransaction().commit();
+		
+		//close the session
+		session.close();
+		
+		System.out.println("bcz gls  like you  the way ");
+		
+		//get the courses for the instructor
+		System.out.println("courses"+ tempInstructor.getCourses());
+		
+		
 			
 		    
 		}

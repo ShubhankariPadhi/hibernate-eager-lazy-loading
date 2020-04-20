@@ -4,12 +4,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import com.mysql.cj.Query;
 import com.sbits.demo.entity.Course;
 import com.sbits.demo.entity.Instructor;
 import com.sbits.demo.entity.InstructorDetail;
 
 
-public class DeleteCourseDemo {
+public class EagerLazyDemo {
 
 	public static void main(String[] args) {
 		
@@ -27,19 +28,29 @@ public class DeleteCourseDemo {
 			//start a transaction
 			session.beginTransaction();
 			
-		// get a course 
-			int theId=13;
-			Course tempCourse=session.get(Course.class,theId);
-			
-			//delete  the course
-			System.out.println("deleting course"+tempCourse);
-			
-			session.delete(tempCourse);
+		int theId=1;
+		org.hibernate.query.Query<Instructor> query=session.createQuery("select i from Instructor i JOIN FETCH i.courses where i.id=:theInstructorId", Instructor.class);
+		
+		//set parameter on query	
+		query.setParameter("theInstructorId",theId);
+		
+		//execute query
+		Instructor tempInstructor=query.getSingleResult();
+		
+		System.out.println("instructor:" +tempInstructor);
 		
 		
-			//commit the transaction
-			session.getTransaction().commit();
-			
+		
+		//commit the  transaction
+		session.getTransaction().commit();
+		
+		//close the session
+		session.close();
+		
+		System.out.println("\n session has been closed\n");
+		
+		System.out.println("courses "+ tempInstructor.getCourses());
+		
 		    
 		}
 		finally {
