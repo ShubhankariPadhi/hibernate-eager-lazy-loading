@@ -28,6 +28,7 @@ public class EagerLazyDemo {
 			//start a transaction
 			session.beginTransaction();
 			
+			//applying HQL query
 		int theId=1;
 		org.hibernate.query.Query<Instructor> query=session.createQuery("select i from Instructor i JOIN FETCH i.courses where i.id=:theInstructorId", Instructor.class);
 		
